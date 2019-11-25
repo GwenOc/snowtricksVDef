@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <!--  banniere -->
+    <section id="banner">
+        <div class="banner-content">
+            <h2>La communauté du Trick !</h2>
+        </div>
+        <div class="arrow arrow-down">
+            <a href="#tricks"><i class="fa fa-arrow-down fa-7x"></i></a>
+        </div>
+    </section>
+    <!-- fin banniere -->
+    <!-- #Tricks -->
+    <main>
+        <section id="tricks" class="mt-4">
+            <div>
+                <h2 class="ml-3">Liste des tricks</h2>
+            </div>
+            <div class="container-fluid p-5 card-wrapper">
+                <div class="card-columns-lg  col-xs-12" >
+                    {% for trick in tricks %}
+                        {% if trick.Pictures is empty %}
+                            <div class="card mb-5">
+                                <img class="card-img-top " src={{ asset('img/defaultCover.jpg') }}>
+                                <div class="card-body">
+                                    <h3 class="card-title float-left">
+                                        <a href="{{ path('trick_view', {'id': trick.id}) }}">{{ trick.name|upper }}</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+    <div class="text-right arrow mr-4">
+        <a href="#" class="back-to-top"><i class="fa fa-arrow-up fa-7x"></i></a>
+    </div>
+
+{% endblock %}
