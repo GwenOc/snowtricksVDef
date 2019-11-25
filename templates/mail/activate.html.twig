@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <h3>Active ton compte</h3>
+        <p>Bienvenue {{ user.username }}!</p>
+        <p>Merci de ton incription ! Encore un dernier effort clique sur ce lien pour activer ton compte : <a href="{{ url }}">Clique
+        ici</a></p>
+        <p>L'équipe SnowTricks.</p>
+        <img src="{{ absolute_url(asset('img/logo.png')) }}">
+    </body>

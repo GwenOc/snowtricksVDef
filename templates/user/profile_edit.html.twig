@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block title %}Editer Mon Profil{% endblock %}
+
+{% block body %}
+	<div class="wrapper">
+		<h2 class="mt-5 ml-2">Salut {{ user.username }}!</h2>
+			<div class="row mt-4 p-3">
+				<div class="col-lg-2 col-xs-12 mb-5">
+	  				{{ form_start(form) }}
+	  					{{ form_row (form.avatar)}}
+	  					<button type="submit" class="btn btn-primary">Changer mon avatar</button>
+	  				{{ form_end (form) }}
+			</div>
+				<div class="col-lg-10 col-xs-12">
+					<h2> Mes contributions</h2>
+						{% for trick in user.tricks %}
+							<div class="row mt-4">
+								<div class="col-lg-2">
+									<h3> <a href="{{ path('trick_view', {'id': trick.id}) }}">{{ trick.name }}</a></h3>
+								</div>
+							<div class="col-lg-8">
+								<p>{{ trick.description }}</p>
+							</div>
+							</div>
+						{% endfor %}
+				</div>
+			</div>
+	</div>
+{% endblock %}

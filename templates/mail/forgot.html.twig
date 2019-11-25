@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <h3>Mot de passe oublié</h3>
+        <p>Bonjour {{ user.username }}!</p>
+        <p>Clique sur ce lien, modifie ton mot de passe et remonte sur ta planche! : <a href="{{ url }}">Clique ici</a>.</p>
+        <p>A bientôt,</p>
+        <p>L'équipe SnowTricks.</p>
+        <img src="{{ absolute_url(asset('img/logo.png')) }}">
+    </body>
