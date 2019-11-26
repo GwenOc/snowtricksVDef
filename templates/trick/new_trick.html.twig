@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Creation{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        <h2 class="text-center mt-5">Création d'un Trick</h2>
+        <div class="container">
+            {{ form_start (form) }}
+
+                {{ form_row(form.category) }}
+                {{ form_row(form.name,{'attr':{'placeholder':"Nom du trick"}}) }}
+                {{ form_row(form.description, {'attr':{'placeholder':"Decription du trick"}}) }}
+
+                {{ form_label(form.images) }}
+                    <ul id="images-fields-list"
+                    data-prototype='{{ form_widget(form.images.vars.prototype)|e }}'
+                    data-widget-tags="{{ '<li></li>'|e }}">
+                        {% for pic in form.images %}
+                            <li>
+                                {{ form_errors(pic) }}
+                                {{ form_widget(pic) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                <button type="button"
+                    class="add-another-collection-widget"
+                    data-list="#images-fields-list">Ajouter une photo
+                </button>
+
+
+                {{ form_label(form.videolinks) }}
+                    <ul id="videolinks-fields-list"
+                    data-prototype='{{ form_widget(form.videolinks.vars.prototype)|e }}'
+                    data-widget-tags="{{ '<li></li>'|e }}">
+                        {% for videolink in form.videolinks %}
+                            <li>
+                            {{ form_errors(videolink) }}
+                            {{ form_widget(videolink) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                <button type="button"
+                    class="add-another-collection-widget"
+                    data-list="#videolinks-fields-list">Ajouter une vidéo
+                </button>
+
+
+                <button type="submit" class="btn btn-success">Ajouter le trick</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
