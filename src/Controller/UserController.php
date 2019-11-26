@@ -3,22 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\ResetType;
 use App\Form\EditAvatarType;
-use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 /**
  * @Route("/user")

@@ -6,14 +6,11 @@ use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Repository\CommentRepository;
 use Doctrine\Common\Persistence\ObjectManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
