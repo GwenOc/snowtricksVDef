@@ -2,8 +2,9 @@
 {% block title %}Details du trick{% endblock %}
 
 {% block body %}
-    <div class="container mt-2" >
-        <!-- banner -->
+    <div class="wrapper p-5">
+        <div class="container mt-2" >
+            <!-- banner -->
             {% if trick.pictures is empty %}
                 <div class="col-lg-12 mt-5">
                     <div class="card">
@@ -48,100 +49,97 @@
                     </div>
                 {% endfor %}
             {% endif %}
-            <div class="container"></div>
-            <div class="row trickMedia">
-                {% for picture in trick.pictures %}
-                    {% if not loop.first %}
+            <div class="container trickMedia">
+                <div class="row">
+                    {% for picture in trick.pictures %}
+                        {% if not loop.first %}
+                            <div class="col-lg-4 col-sm-12 mt-3">
+                                <div class="card">
+                                    <img class="img-fluid" src={{ asset('uploads/pictures/' ~ picture.name) }}>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% for video in trick.getVideoLinks() %}
                         <div class="col-lg-4 col-sm-12 mt-3">
-                            <div class="card">
-                                <img class="img-fluid" src={{ asset('uploads/pictures/' ~ picture.name) }}>
+                            <div class="embed-responsive embed-responsive-16by9">
+                                {{ video|html }}
                             </div>
                         </div>
-                    {% endif %}
-                {% endfor %}
-                {% for video in trick.getVideoLinks() %}
-                    <div class="col-lg-4 col-sm-12 mt-3">
-                        <div class="embed-responsive embed-responsive-16by9">
-                            {{ video|html }}
-                        </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
             <div class="d-flex justify-content-center seeMedia mt-4">
                 <button class="btn btn-outline-success" id="seeMedia">Voir les médias</button>
             </div>
-        </div>
     <!-- fin media section -->
         <!-- Contenu section -->
-        <section class="mt-5 p-3">
-            <div class="col-lg-12">
-                <p>{{ trick.description }}</p>
-            </div>
-            <div class="row">
-                <div class="col-lg-3">
-                    <p class="bg-primary p-2">Crée par : {{ trick.author.userName }} </p>
+            <section class="mt-5 p-3">
+                <div class="col-lg-12">
+                    <p>{{ trick.description }}</p>
                 </div>
-                <div class="col-lg-3">
-                    <p class="bg-primary p-2">Crée le : {{ trick.createdAt|date("d/m/Y") }} </p>
-                </div>
-                <div class="col-lg-3">
-                    <p class="bg-primary p-2">Modifié : {{ trick.updatedAt|date("d/m/Y") }} </p>
-                </div>
-                <div class="col-lg-3">
-                    <p class="bg-primary p-2">Catégorie : {{ trick.category.categoryName }} </p>
-                </div>
-            </div>
-        </section>
-        <!-- fin Contenu section -->
-        <!-- Form Commentaire section -->
-        <div class="mt-5">
-            <div class="separate border-bottom"></div>
-                {% if app.user %}
-                    {{ form_start(commentForm) }}
-                        {{ form_row(commentForm.text) }}
-                        <button type="submit" class="btn btn-primary">Laisser un commentaire</button>
-                    {{ form_end(commentForm) }}
-                        <div class="separate border-bottom mt-3"></div>
-                {% endif %}
-        </div>
-        <!-- fin Form Commentaire section -->
-        <!-- List Comments section -->
-        <section class="mt-5">
-            {% for comment in trick.comments|slice(0,4) %}
-                <div class="mt-4 commentList">
-                    <div class="row mt-2">
-                        <div class="col-1">
-                            {% if comment.author.avatarFilename == null %}
-                                <img class="img-thumbnail" src={{ asset('img/avatar-placeholder.png') }}>
-                            {% else %}
-                                <img class="img-thumbnail"
-                                     src="{{ asset('uploads/pictures/' ~ comment.author.avatarFilename) }}">
-                            {% endif %}
-                        </div>
-                        <div class="col-2">
-                            {{ comment.author.userName }} <small>{{ comment.createdAt|date("d/m/Y") }}</small>
-                        </div>
-                        <div class="col-6 comment p-3">
-                            {{ comment.text }}
-                        </div>
-                        {% if app.user and comment.author.userName == app.user.userName %}
-                            <a class="ml-2 text-danger" href="{{ path('app_comment_deletecomment', {'trick_id':trick.id, 'comment_id':comment.id}) }}">effacer mon commentaire</a>
-                        {% endif %}
+                <div class="row">
+                    <div class="col-lg-3">
+                        <p class="bg-primary p-2">Crée par : {{ trick.author.userName }} </p>
+                    </div>
+                    <div class="col-lg-3">
+                        <p class="bg-primary p-2">Crée le : {{ trick.createdAt|date("d/m/Y") }} </p>
+                    </div>
+                    <div class="col-lg-3">
+                        <p class="bg-primary p-2">Modifié : {{ trick.updatedAt|date("d/m/Y") }} </p>
+                    </div>
+                    <div class="col-lg-3">
+                        <p class="bg-primary p-2">Catégorie : {{ trick.category.categoryName }} </p>
                     </div>
                 </div>
-            {% endfor %}
-            <div id="content">
+            </section>
+        <!-- fin Contenu section -->
+        <!-- Form Commentaire section -->
+            <div class="mt-5">
+                <div class="separate border-bottom"></div>
+                    {% if app.user %}
+                        {{ form_start(commentForm) }}
+                            {{ form_row(commentForm.text) }}
+                            <button type="submit" class="btn btn-primary">Laisser un commentaire</button>
+                        {{ form_end(commentForm) }}
+                            <div class="separate border-bottom mt-3"></div>
+                    {% endif %}
             </div>
-
-        </section>
-
-    </div>
-    {% if trick.comments|length > 10 %}
-        <div class="d-flex justify-content-center" id="seeMore"  data-loadmore="{{ path('seeMore') }}" data-id="{{ trick.id }}" data-totalitem="{{ trick.comments|length }}">
-            <button type="button" id="load-more" class="btn btn-primary">Voir plus de commentaires</button>
+        <!-- fin Form Commentaire section -->
+        <!-- List Comments section -->
+            <section class="mt-5">
+                {% for comment in trick.comments|slice(0,4) %}
+                    <div class="mt-4 commentList">
+                        <div class="row mt-2">
+                            <div class="col-1">
+                                {% if comment.author.avatarFilename == null %}
+                                    <img class="img-thumbnail" src={{ asset('img/avatar-placeholder.png') }}>
+                                {% else %}
+                                    <img class="img-thumbnail"
+                                         src="{{ asset('uploads/pictures/' ~ comment.author.avatarFilename) }}">
+                                {% endif %}
+                            </div>
+                            <div class="col-2">
+                                {{ comment.author.userName }} <small>{{ comment.createdAt|date("d/m/Y") }}</small>
+                            </div>
+                            <div class="col-6 comment p-3">
+                                {{ comment.text }}
+                            </div>
+                            {% if app.user and comment.author.userName == app.user.userName %}
+                                <a class="ml-2 text-danger" href="{{ path('app_comment_deletecomment', {'trick_id':trick.id, 'comment_id':comment.id}) }}">effacer mon commentaire</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+                <div id="content">
+                </div>
+            </section>
+                {% if trick.comments|length > 10 %}
+                     <div class="d-flex justify-content-center" id="seeMore"  data-loadmore="{{ path('seeMore') }}" data-id="{{ trick.id }}" data-totalitem="{{ trick.comments|length }}">
+                        <button type="button" id="load-more" class="btn btn-primary">Voir plus de commentaires</button>
+                    </div>
+                {% endif %}
         </div>
-    {% endif %}
-
     </div>
-    <!-- fin List Comments section -->
 {% endblock %}
+

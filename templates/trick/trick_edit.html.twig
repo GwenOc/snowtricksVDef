@@ -2,123 +2,129 @@
 {% block title %}Edition{% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
-        <!-- banner -->
-        {% if trick.pictures is empty %}
-            <div class="col-lg-12 mt-5">
-                <div class="card">
-                    <img src="{{ asset('img/banner.jpg') }}" class="img-fluid">
-                    <div class="card-img-overlay-tv">
-                        <h2>{{ trick.name|upper }}</h2>
-                        <p>Ce trick n'a pas encore d'images, à toi de jouer!</p>
-                    </div>
-                </div>
-            </div>
-        {% else %}
-            {% for picture in trick.pictures|slice(0,1) %}
+    <div class="wrapper p-5">
+        <div class="container mt-5">
+            <!-- banner -->
+            {% if trick.pictures is empty %}
                 <div class="col-lg-12 mt-5">
                     <div class="card">
-                        <img class="img-fluid timage" src={{ asset('uploads/pictures/' ~ picture.name) }}>
+                        <img src="{{ asset('img/banner.jpg') }}" class="img-fluid">
                         <div class="card-img-overlay-tv">
                             <h2>{{ trick.name|upper }}</h2>
+                            <p>Ce trick n'a pas encore d'images, à toi de jouer!</p>
                         </div>
-                        {% if is_granted('ROLE_USER') %}
-                            <div class="icons-overlay">
-                                <a href="{{ path('picture_delete', {'id':picture.id}) }}"
-                                   onclick="return confirm('Supprimer l'image ?')">
-                                    <i class="far fa-trash-alt mx-2" title="supprimer l'image'"></i>
-                                </a>
+                </div>
+                </div>
+            {% else %}
+                {% for picture in trick.pictures|slice(0,1) %}
+                    <div class="col-lg-12 mt-5">
+                        <div class="card">
+                            <img class="img-fluid timage" src={{ asset('uploads/pictures/' ~ picture.name) }}>
+                            <div class="card-img-overlay-tv">
+                                <h2>{{ trick.name|upper }}</h2>
+                            </div>
+                            {% if is_granted('ROLE_USER') %}
+                                <div class="icons-overlay">
+                                    <a href="{{ path('picture_delete', {'id':picture.id}) }}"
+                                    onclick="return confirm('Supprimer l'image ?')">
+                                        <i class="far fa-trash-alt mx-2" title="supprimer l'image'"></i>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <!-- media section -->
+            <div class="container trickMedia">
+                <div class="row">
+                    {% for picture in trick.pictures %}
+                        {% if not loop.first %}
+                            <div class="col-lg-4 col-sm-12 mt-3">
+                                <div class="card">
+                                    <img class="img-fluid" src={{ asset('uploads/pictures/' ~ picture.name) }}>
+                                    {% if is_granted('ROLE_USER') %}
+                                        <div class="icons-overlay">
+                                            <a href="{{ path('picture_delete', {'id':picture.id}) }}"
+                                            onclick="return confirm('Supprimer l'image ?')">
+                                                <i class="far fa-trash-alt mx-2" title="supprimer l'image'"></i>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                </div>
                             </div>
                         {% endif %}
-                    </div>
-                </div>
-            {% endfor %}
-        {% endif %}
-        <!-- media section -->
-        <div class="container">
-            <div class="row trickMedia">
-                {% for picture in trick.pictures %}
-                    {% if not loop.first %}
-                        <div class="col-lg-4 col-sm-12 mt-3">
-                            <div class="card">
-                                <img class="img-fluid" src={{ asset('uploads/pictures/' ~ picture.name) }}>
-                                {% if is_granted('ROLE_USER') %}
-                                    <div class="icons-overlay">
-                                        <a href="{{ path('picture_delete', {'id':picture.id}) }}"
-                                        onclick="return confirm('Supprimer l'image ?')">
-                                            <i class="far fa-trash-alt mx-2" title="supprimer l'image'"></i>
-                                        </a>
-                                    </div>
-                                {% endif %}
+                    {% endfor %}
+                    {% for key, video in trick.VideoLinks %}
+                        <div class="col-lg-4">
+                            <div class="embed-responsive embed-responsive-16by9">
+                                {{ video|html }}
+                            </div>
+                            <div class="card-img-overlay text-right">
+                                <a href="{{path('video_delete', {'id':trick.id, 'key':key}) }}"
+                                onclick="return confirm('Supprimer la vidéo ?')">
+                                    <i class="far fa-trash-alt mx-2" title="supprimer la vidéo'"></i>
+                                </a>
                             </div>
                         </div>
-                    {% endif %}
-                {% endfor %}
-                {% for key, video in trick.VideoLinks %}
-                    <div class="col-lg-4">
-                        <div class="embed-responsive embed-responsive-16by9">
-                            {{ video|html }}
-                        </div>
-                        <div class="card-img-overlay text-right">
-                            <a href="{{path('video_delete', {'id':trick.id, 'key':key}) }}"
-                            onclick="return confirm('Supprimer la vidéo ?')">
-                                <i class="far fa-trash-alt mx-2" title="supprimer la vidéo'"></i>
-                            </a>
-                        </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
             <div class="d-flex justify-content-center seeMedia mt-4">
                 <button class="btn btn-outline-success" id="seeMedia">Voir les médias</button>
             </div>
-        </div>
     <!-- fin media section -->
     <!-- form section -->
-        <section>
-            {{ form_start (form) }}
+            <section>
+                {{ form_start (form) }}
 
-                {{ form_row(form.category) }}
-                {{ form_row(form.name, {'attr': {'class': 'form-control', 'id': 'name'} }) }}
-                {{ form_row(form.description, {'attr': {'class': 'form-control', 'id': 'description'} }) }}
-                {{ form_label(form.images) }}
-                    <ul id="images-fields-list"
-                    data-prototype='{{ form_widget(form.images.vars.prototype)|e }}'
-                    data-widget-tags="{{ '<li></li>'|e }}">
-                        {% for pic in form.images %}
-                            <li>
-                                {{ form_errors(pic) }}
-                                {{ form_widget(pic) }}
-                            </li>
-                        {% endfor %}
-                    </ul>
+                    {{ form_row(form.category) }}
+                    {{ form_row(form.name, {'attr': {'class': 'form-control', 'id': 'name'} }) }}
+                    {{ form_row(form.description, {'attr': {'class': 'form-control', 'id': 'description'} }) }}
+                    {{ form_label(form.images) }}
+                        <ul id="images-fields-list"
+                        data-prototype='{{ form_widget(form.images.vars.prototype)|e }}'
+                        data-widget-tags="{{ '<li></li>'|e }}">
+                            {% for pic in form.images %}
+                                <li>
+                                    {{ form_errors(pic) }}
+                                    {{ form_widget(pic) }}
+                                </li>
+                            {% endfor %}
+                        </ul>
 
-                <button type="button"
-                    class="add-another-collection-widget"
-                    data-list="#images-fields-list">Ajouter une photo
-                </button>
+                    <button type="button"
+                        class="add-another-collection-widget"
+                        data-list="#images-fields-list">Ajouter une photo
+                    </button>
 
 
-                {{ form_label(form.videolinks) }}
-                    <ul id="videolinks-fields-list"
-                    data-prototype='{{ form_widget(form.videolinks.vars.prototype)|e }}'
-                    data-widget-tags="{{ '<li></li>'|e }}">
-                        {% for videolink in form.videolinks %}
-                            <li>
-                                {{ form_errors(videolink) }}
-                                {{ form_widget(videolink) }}
-                            </li>
-                        {% endfor %}
-                    </ul>
+                    {{ form_label(form.videolinks) }}
+                        <ul id="videolinks-fields-list"
+                        data-prototype='{{ form_widget(form.videolinks.vars.prototype)|e }}'
+                        data-widget-tags="{{ '<li></li>'|e }}">
+                            {% for videolink in form.videolinks %}
+                                <li>
+                                    {{ form_errors(videolink) }}
+                                    {{ form_widget(videolink) }}
+                                </li>
+                            {% endfor %}
+                        </ul>
 
-                <button type="button"
-                    class="add-another-collection-widget"
-                    data-list="#videolinks-fields-list">Ajouter une vidéo
-                </button>
-
-                <button type="submit" class="btn btn-success">Sauvegarder</button>
+                    <button type="button"
+                        class="add-another-collection-widget"
+                        data-list="#videolinks-fields-list">Ajouter une vidéo
+                    </button>
+                    <div class="row justify-content-center mt-5">
+                        <button class="btn btn-success" type="submit"><i class="fas fa-save"></i>Sauvegarder</button>
+                        <button class="btn btn-danger ml-2"><i class="far fa-trash-alt"></i>
+                            <a href="{{ path('trick_delete', {'id': trick.id}) }}" onclick="return confirm('Es-tu bien sur de vouloir supprimer ce trick ?')">Effacer le trick</a>
+                        </button>
+                    </div>
             {{ form_end (form) }}
-        </section>
+            </section>
         <!-- fin form section -->
+        </div>
     </div>
 
 {% endblock %}

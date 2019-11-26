@@ -22,7 +22,12 @@ p {
   margin: 0 0 30px 0;
   font-size: 1.5rem;
 }
-
+label {
+  font-size: 1.3rem;
+}
+button , .btn {
+  font-size: 1.2rem;
+}
 h1,
 h2,
 h3,
@@ -60,7 +65,11 @@ i {
   color : #717171;
 }
 .wrapper{
-  height: 80vh;
+  min-height: 80vh;
+}
+.appMessages{
+  font-size: 1.5rem;
+  color : #1c7430;
 }
 /*--------------------------------------------------------------
 # Home
@@ -121,7 +130,7 @@ i {
 }
 
 .card-img-top{
-  height: 20vh;
+  height: 25vh;
 }
 
 #tricks .btn {
@@ -142,6 +151,12 @@ i {
     font-size: 1rem;
   }
   i{
+    font-size: 1rem;
+  }
+  .btn {
+    font-size: 1rem;
+  }
+  .form-control{
     font-size: 1rem;
   }
   #banner {
@@ -198,6 +213,9 @@ i {
 /*--------------------------------------------------------------
 # Forms
 --------------------------------------------------------------*/
+.form-control{
+  font-size: 1.2rem;
+}
 
 #form-container{
 padding: 1rem;
@@ -213,9 +231,9 @@ font-size: 2rem;
 /*--------------------------------------------------------------
 # Trick-view 
 --------------------------------------------------------------*/
-  .trickMedia {
-    display: none;
-  }
+.trickMedia {
+  display: none;
+}
 
 .info-box{  
   border : 2px solid #fff;
@@ -224,7 +242,6 @@ font-size: 2rem;
 .timage{
   max-height: 50vh;
 }
-
 #comments .comment{
   border:1px solid #fff;
 }
@@ -232,7 +249,6 @@ font-size: 2rem;
   min-width: 55px;
   min-height: 55px;
 }
-
 .card-img-overlay-tv {
   position: absolute;
   height: 150px;
@@ -248,11 +264,6 @@ font-size: 2rem;
   right: 20px;
   font-size: 1.5rem;
 }
-@media screen and (min-width: 1024px){
-  /*#seeMedia{*/
-  /*display: none;*/
-  /*}*/
-}
 
 /*--------------------------------------------------------------
 # Profile-view 
@@ -265,7 +276,9 @@ font-size: 2rem;
 }
 #nav-footer a{
   padding: 2rem;
-  font-size: 5rem;
+}
+#nav-footer a>i{
+  font-size:5rem;
 }
 @media screen and (min-width: 1024px){
   #nav-footer{
