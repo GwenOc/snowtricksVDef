@@ -153,18 +153,6 @@ class User implements UserInterface
 
         return $this;
     }
-    
-    public function getEnabled(): ?bool
-    {
-        return $this->enabled;
-    }
-
-    public function setEnabled(bool $enabled): self
-    {
-        $this->enabled = $enabled;
-
-        return $this;
-    }
 
     public function getToken(): ?string
     {

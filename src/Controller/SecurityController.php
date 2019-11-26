@@ -7,7 +7,6 @@ use App\Form\RegisterType;
 use App\Form\ResetType;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
-use App\Service\MailService;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
@@ -53,29 +51,29 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $avatarFile = $form['avatar']->getData();
-                if ($avatarFile) {
-                    $avatarFileName = $fileUploader->upload($avatarFile);
-                    $user->setavatarFilename($avatarFileName);
-                }
+            if ($avatarFile) {
+                $avatarFileName = $fileUploader->upload($avatarFile);
+                $user->setavatarFilename($avatarFileName);
+            }
 
             $hash = $passwordEncoder->encodePassword($user, $user->getPassword());
 
             $user->setPassword($hash);
             $manager->persist($user);
-            $manager->flush();        
+            $manager->flush();
 
             $token = $user->getToken();
             $url = $this->generateUrl('app_activate', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
 
-             $message = (new \Swift_Message('Forgot Password'))
-                    ->setSubject('Bienvenue sur snowtricks')
-                    ->setFrom('send@example.com')
-                    ->setTo($user->getEmail())
-                    ->setBody(
-                        $this->renderView('mail/activate.html.twig', [ 'user' => $user, 'url' => $url]), 'text/html'
-            );
+            $message = (new \Swift_Message('Forgot Password'))
+                ->setSubject('Bienvenue sur snowtricks')
+                ->setFrom('send@example.com')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->renderView('mail/activate.html.twig', [ 'user' => $user, 'url' => $url]), 'text/html'
+                );
             $mailer->send($message);
-            
+
             return $this->redirectToRoute('app_home_index');
         }
 
@@ -108,9 +106,9 @@ class SecurityController extends AbstractController
     {
         if (!$request->isMethod('POST')) {
             return $this->render('security/forgotten_password.html.twig');
-        } 
+        }
 
-         
+
         $email = $request->get('email');
         $user = $repo->findOneByEmail($email);
 
@@ -120,7 +118,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_home_index');
         }
 
-        $token = $user->getToken();        
+        $token = $user->getToken();
         $manager->flush();
 
         $url = $this->generateUrl('app_reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
@@ -129,8 +127,8 @@ class SecurityController extends AbstractController
             ->setSubject('Mot de passe oublié')
             ->setFrom('send@example.com')
             ->setTo($user->getEmail())
-            ->setBody( 
-                 $this->renderView('mail/forgot.html.twig', [ 'user' => $user, 'url' => $url]), 'text/html'
+            ->setBody(
+                $this->renderView('mail/forgot.html.twig', [ 'user' => $user, 'url' => $url]), 'text/html'
             );
 
 
@@ -148,25 +146,22 @@ class SecurityController extends AbstractController
         $user = $repo->findOneByToken($token);
         $form = $this->createForm(ResetType::class, $user);
 
-            if (null !== $user) {
+        if (null !== $user) {
 
-                $form->handleRequest($request);
+            $form->handleRequest($request);
 
-                if ($form->isSubmitted() && $form->isValid()) {
-                    $hash = $passwordEncoder->encodePassword($user, $user->getPassword());
-                    $user->setToken(null)
-                         ->setPassword($hash);
-                    $manager->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $hash = $passwordEncoder->encodePassword($user, $user->getPassword());
+                $user->setToken(null)
+                    ->setPassword($hash);
+                $manager->flush();
 
-                    $this->addFlash('notice','Mot de passe modifié');
-                    return $this->redirectToRoute('app_login');
-                }
-            }           
-                    
-        
+                $this->addFlash('notice','Mot de passe modifié');
+                return $this->redirectToRoute('app_login');
+            }
+        }
+
         return $this->render('security/reset_password.html.twig', [
-                            'form' => $form->createView(),]); 
+            'form' => $form->createView(),]);
     }
-    
-
 }
