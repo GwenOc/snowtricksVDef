@@ -27,11 +27,56 @@
                                     <h3 class="card-title float-left">
                                         <a href="{{ path('trick_view', {'id': trick.id}) }}">{{ trick.name|upper }}</a>
                                     </h3>
+                                    {% if is_granted('ROLE_USER') %}
+                                        <div class="icons float-right">
+                                            <a href="{{ path('trick_edit', {'id': trick.id}) }}">
+                                                <i class="far fa-edit mx-2" title="editer le trick"></i>
+                                            </a>
+                                            <a href="{{ path('trick_delete', {'id': trick.id}) }}"
+                                               onclick="return confirm('Es-tu bien sur de vouloir supprimer ce trick ?')">
+                                                <i class="far fa-trash-alt mx-2" title="supprimer le trick"></i>
+                                            </a>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         {% endif %}
+                        {% for picture in trick.pictures|slice(0,1) %}
+                            <div class="card mb-5">
+                                <img class="card-img-top" src={{ asset('uploads/pictures/' ~ picture.name) }}>
+                                <div class="card-body">
+                                    <h3 class="card-title float-left">
+                                        <a href="{{ path('trick_view', {'id': trick.id}) }}">{{ trick.name|upper }}</a>
+                                    </h3>
+                                    {% if is_granted('ROLE_USER') %}
+                                        <div class="icons float-right">
+                                            <a href="{{ path('trick_edit', {'id': trick.id}) }}">
+                                                <i class="far fa-edit mx-2" title="editer le trick"></i>
+                                            </a>
+                                            <a href="{{ path('trick_delete', {'id': trick.id}) }}"
+                                               onclick="return confirm('Es-tu bien sur de vouloir supprimer ce trick ?')">
+                                                <i class="far fa-trash-alt mx-2" title="supprimer le trick"></i>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
                     {% endfor %}
                 </div>
+            </div>
+            <div class="container-fluid p-5 card-wrapper" id="content"> </div>
+
+            {% if tricks|length > 9 %}
+                <div class="d-flex justify-content-center" id="seeMore"  data-loadmore="{{ path('loadmore') }}" data-totalitem="{{ tricks|length }}" >
+                    <button type="button" id="load-more" class="btn btn-primary">Voir plus de tricks</button>
+                </div>
+            {% endif %}
+
+            <div class="row justify-content-center mt-5">
+                {% if is_granted('ROLE_USER') %}
+                    <button class="btn btn-success"><i class="fas fa-pen"></i><a href="{{ path('new_trick') }}">Créer un trick</button>
+                {% endif %}
             </div>
         </section>
     </main>

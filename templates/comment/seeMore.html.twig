@@ -1,0 +1,22 @@
+{% for comment in comments %}
+    <div class="mt-4 commentList">
+        <div class="row mt-2" id="{{comment.id}}">
+            <div class="col-1">
+                {% if comment.author.avatarFilename == null %}
+                    <img class="img-thumbnail" src={{ asset('img/avatar-placeholder.png') }}>
+                {% else %}
+                    <img class="img-thumbnail" src="{{ asset('uploads/pictures/' ~ comment.author.avatarFilename) }}">
+                {% endif %}
+            </div>
+            <div class="col-2">
+                {{ comment.author.userName }} <small>{{ comment.createdAt|date("d/m/Y") }}</small>
+            </div>
+            <div class="col-6 comment p-3">
+                {{ comment.text }}
+            </div>
+            {% if app.user and comment.author.userName == app.user.userName %}
+                <a class="ml-2 text-danger" href="{{ path('comment_delete', {'id':comment.id}) }}">effacer mon commentaire</a>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
