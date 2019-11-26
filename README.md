@@ -1,3 +1,5 @@
+<a href="https://codeclimate.com/github/GwenOc/snowtricksVDef/maintainability"><img src="https://api.codeclimate.com/v1/badges/99cea039eed95b3f8b73/maintainability" /></a>
+
 # snowtricksVDef
 Remote for Project3-Openclassroom Developpeur Web Junior
 
