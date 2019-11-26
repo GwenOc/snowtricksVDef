@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Trick;
 use App\Repository\CommentRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,17 +23,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class CommentController extends AbstractController
 {	
 	/**
-     * @Route("/delete/{id}", name="comment_delete")
-     * @Entity("comment", expr="repository.find(id)")
+     * @Route("/delete/{trick_id}/{comment_id}")
+     * @ParamConverter("trick", options={"mapping": {"trick_id": "id"}})
+     * @ParamConverter("comment", options={"id": "comment_id"})
      * @Security ("(is_granted('ROLE_USER') and user === comment.getAuthor())")
      */
-	public function deleteComment(Comment $comment, ObjectManager $manager)
+	public function deleteComment(Trick $trick, Comment $comment, ObjectManager $manager)
 	{	
 		$manager->remove($comment);
         $manager->flush();
-        $this->addFlash('success', 'commentaire effacé avec succès');			
-		
-        return $this->redirectToRoute('home');
+        $this->addFlash('success', 'commentaire effacé avec succès');
+
+        return $this->redirectToRoute('trick_view', ['id' => $trick->getId()]);
 	}
 
     /**

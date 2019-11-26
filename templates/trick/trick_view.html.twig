@@ -125,7 +125,7 @@
                             {{ comment.text }}
                         </div>
                         {% if app.user and comment.author.userName == app.user.userName %}
-                            <a class="ml-2 text-danger" href="{{ path('comment_delete', {'id':comment.id}) }}">effacer mon commentaire</a>
+                            <a class="ml-2 text-danger" href="{{ path('app_comment_deletecomment', {'trick_id':trick.id, 'comment_id':comment.id}) }}">effacer mon commentaire</a>
                         {% endif %}
                     </div>
                 </div>

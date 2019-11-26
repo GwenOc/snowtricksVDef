@@ -48,6 +48,7 @@ class TrickController extends AbstractController
 
             $manager->persist($trick);
             $manager->flush();
+            $this->addFlash('success', 'Le trick a bien été ajouté');
 
             return $this->redirectToRoute('trick_view', ['id' => $trick->getId()]);
         }
@@ -98,6 +99,7 @@ class TrickController extends AbstractController
             }
 
             $manager->flush();
+            $this->addFlash('success', 'Le trick a bien été édité');
 
             return $this->redirectToRoute('trick_view', ['id' => $trick->getId()]);
         }
