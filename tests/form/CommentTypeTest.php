@@ -17,11 +17,13 @@ class CommentTypeTest extends TypeTestCase
         $formData = [
             'text' => 'America national sport is called baseballs. It very similar to our sport, shurik, where we take dogs, shoot them in a field, and then have a party.',
         ];
+        $datetime = new \DateTime();
 
         $objectToCompare = new Comment();
 
         $objectToCompare->setAuthor($author)
                         ->setTrick($trick);
+        $objectToCompare->setCreatedAt($datetime);
         $form = $this->factory->create(CommentType::class, $objectToCompare);
         $object = new Comment();
 
@@ -30,6 +32,7 @@ class CommentTypeTest extends TypeTestCase
         $object->setText('America national sport is called baseballs. It very similar to our sport, shurik, where we take dogs, shoot them in a field, and then have a party.')
             ->setAuthor($author)
             ->setTrick($trick);
+        $object->setCreatedAt($datetime);
 
         $form->submit($formData);
         $this->assertTrue($form->isValid());
