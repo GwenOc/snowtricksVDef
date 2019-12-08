@@ -19,7 +19,7 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    public function findMoreComments($offset, $id)
+    public function findMoreComments($offset,$id)
     {
         return $this->createQueryBuilder('c')
             ->orderBy('c.id', 'DESC')

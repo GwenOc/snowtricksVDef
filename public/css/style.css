@@ -20,8 +20,9 @@ a:focus {
 p {
   padding: 0;
   margin: 0 0 30px 0;
-  font-size: 1.5rem;
+  font-size: 1.5rem;  
 }
+
 label {
   font-size: 1.3rem;
 }
@@ -138,54 +139,7 @@ i {
   font-size: 2rem;
   margin-left : 1rem
 }
-/*Media queries*/
 
-@media screen and (min-width: 1024px){
-  h2{
-    font-size: 2rem;
-  }
-  h3{
-    font-size: 1.5rem;
-  }
-  p{
-    font-size: 1rem;
-  }
-  i{
-    font-size: 1rem;
-  }
-  .btn {
-    font-size: 1rem;
-  }
-  .form-control{
-    font-size: 1rem;
-  }
-  #banner {
-    background-position: right 35% bottom 54%;
-  }
-  #banner .banner-content h2{
-    color: #292929;
-    margin-bottom: 30px;
-    font-size: 3rem;
-    font-weight: 500;
-    margin-top: 1rem;
-  }
-  .arrow{
-    font-size: 0.5rem;
-  }
-  .card-columns-lg {
-    -webkit-column-count: 5;
-    -moz-column-count: 5;
-    column-count: 5;
-    column-gap: 1.25rem;
-  }
-  .card-img-top{
-    height: 20vh;
-  }
-  #tricks .btn {
-    padding: 1rem;
-    font-size: 1rem;
-  }
-}
 
 /*--------------------------------------------------------------
 # Navigation Menu
@@ -200,16 +154,6 @@ i {
   font-size: 2.7rem;
 }
 
-@media screen and (min-width: 1024px){
-  .navbar a{
-    font-size: 1.2rem;
-  }
-  .navbar{
-    padding: 0;
-  }
-}
-
-
 /*--------------------------------------------------------------
 # Forms
 --------------------------------------------------------------*/
@@ -220,14 +164,8 @@ i {
 #form-container{
 padding: 1rem;
 font-size: 2rem;
+}
 
-}
-@media screen and (min-width: 1024px){
-  #form-container{
-  width: 40%;
-  font-size: 1.5rem;
-  }
-}
 /*--------------------------------------------------------------
 # Trick-view 
 --------------------------------------------------------------*/
@@ -280,7 +218,68 @@ font-size: 2rem;
 #nav-footer a>i{
   font-size:5rem;
 }
+
+/*--------------------------------------------------------------
+# Media Queries
+--------------------------------------------------------------*/
+
 @media screen and (min-width: 1024px){
+  h2{
+    font-size: 2rem;
+  }
+  h3{
+    font-size: 1.5rem;
+  }
+  p{
+    font-size: 1rem;
+  }
+  i{
+    font-size: 1rem;
+  }
+  .btn {
+    font-size: 1rem;
+  }
+  .form-control{
+    font-size: 1rem;
+  }
+  #banner {
+    background-position: right 35% bottom 54%;
+  }
+  #banner .banner-content h2{
+    color: #292929;
+    margin-bottom: 30px;
+    font-size: 3rem;
+    font-weight: 500;
+    margin-top: 1rem;
+  }
+  .arrow{
+    font-size: 0.5rem;
+  }
+  .card-columns-lg {
+    -webkit-column-count: 5;
+    -moz-column-count: 5;
+    column-count: 5;
+    column-gap: 1.25rem;
+  }
+  .card-img-top{
+    height: 20vh;
+  }
+  #tricks .btn {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+  .navbar a{
+    font-size: 1.2rem;
+  }
+  .navbar{
+    padding: 0;
+  }
+
+  #form-container{
+    width: 40%;
+    font-size: 1.5rem;
+  }
+
   #nav-footer{
     display: none;
   }
